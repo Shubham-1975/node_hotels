@@ -4,7 +4,7 @@ const router = express.Router();
 
 const hospitaldata = require("./../models/hospitalSchema");
 
-router.post('/hospitaldata', async (req,res)=>{
+router.post('/', async (req,res)=>{
   try{
     const data = req.body;
 
@@ -20,7 +20,7 @@ router.post('/hospitaldata', async (req,res)=>{
   } 
 })
 
-router.get('/hospitaldata', async (req,res)=>
+router.get('/', async (req,res)=>
 {
 try{
   const data = await hospitaldata.findById("673560a32289f45fa4b1d26a");
@@ -34,7 +34,7 @@ try{
  
 })
 
-router.put('/hospitaldata/:id', async (req,res)=>
+router.put('/:id', async (req,res)=>
 {
   try{
     const hospityalId = req.params.id; //Extract the from the URL parameter
@@ -58,12 +58,31 @@ router.put('/hospitaldata/:id', async (req,res)=>
   }
 })
 
-router.delete('/hospitaldata/:id', async (req,res)=>
+router.get('/:workType', async (req,res)=>{
+  try{
+    const workType = req.params.workType;
+    if(workType==='nurse' || workType === 'compounder' || workType === 'doctor' || workType === 'doctor'){
+      const response = await hospitaldata.find({work:workType});
+      console.log("data fetched");
+      res.status(200).json(response);
+    }
+    else
+    {
+      console.log("workType is Invalid");
+      res.status(404).json({error:'data is not found'});
+    }
+  }catch(err){
+    console.log(err);
+    res.status(500).json({error:'server error in menu section'});
+  }
+})
+
+router.delete('/:id', async (req,res)=>
 {
   try{
     const hospitalId = req.params.id;
   
-    const response = await hospitaldata.findByIdAndRemove(hospitalId);
+    const response = await hospitaldata.findByIdAndDelete(hospitalId);
 
     if(!response){
       return res.status(404).json({error:"hospital data is not found"});

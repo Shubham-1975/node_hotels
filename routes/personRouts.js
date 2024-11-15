@@ -80,4 +80,22 @@ router.post('/', async (req,res)=>{
         }
       })
 
+      router.delete('/:id', async(req,res)=>{
+        try{
+            const personId = req.params.id;
+
+           const response = await Person.findByIdAndDelete(personId);
+
+           if(!response){
+            console.log("data is not found");
+            res.status(404).json({error:'data is not found'})
+           }
+           console.log("data deleted successful");
+           res.status(200).json(response);
+        }catch(err){
+          console.log(err);
+          res.status(500).json({error:'Internal Server Error'});
+        }
+      })
+
 module.exports = router;

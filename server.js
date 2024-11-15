@@ -72,7 +72,7 @@ const menuItemRoutes = require('./routes/menuItemRoutes');
 app.use('/menudata', menuItemRoutes);
 
 const hospitaldata = require('./routes/hospitalRoute');
-app.use('/',hospitaldata);
+app.use('/hospitaldata',hospitaldata);
 // app.get('/shubh', (req,res)=>{
 //   res.send('shbham rawat');
 // })
